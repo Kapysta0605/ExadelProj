@@ -5,10 +5,9 @@
           <img src="../assets/pepe.jpg">
         </a>
       </md-toolbar>
-      <sidenav-links>
+      <sidenav-links @changePage=changePage>
       </sidenav-links>
     </md-sidenav>
-    
 </template>
 
 <script>
@@ -17,7 +16,12 @@ export default {
   name: 'SideNav',
   components: { 
     SidenavLinks
-   }
+  },
+  methods: {
+    changePage: function(id){
+      this.$emit('changePage', id);
+    }
+  }
 };
 </script>
 

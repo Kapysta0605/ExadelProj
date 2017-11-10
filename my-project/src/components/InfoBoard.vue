@@ -1,5 +1,19 @@
 <template>
-    <h1>About US</h1>
+  <div id='info-board'>
+    <md-layout md-gutter>
+      <md-layout md-column md-gutter>
+        <md-layout md-flex="20"></md-layout>
+        <md-layout></md-layout>
+      </md-layout>
+
+      <md-layout md-column md-gutter>
+        <md-layout md-flex="50"></md-layout>
+        <md-layout></md-layout>
+        <md-layout></md-layout>
+      </md-layout>
+    </md-layout>
+  </div>
+    
     
 </template>
 
@@ -15,29 +29,7 @@ export default {
 
   
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-.container{
-  box-sizing: inherit;
-}
-
-.sidenav-logo{
-  margin-top: -50px;
-  padding: 0;
+#info-board{
+  min-height: 1080px;
 }
 </style>

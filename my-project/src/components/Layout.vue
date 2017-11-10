@@ -1,11 +1,12 @@
 <template>
   <div id="layout">
     <md-theme md-name="green">
-      <md-toolbar class='header' @changePage="changeTitle">
+      <md-toolbar class='header'>
         <h1> {{ titles[title] }} </h1>
       </md-toolbar>
     </md-theme>
-    <sidenav></sidenav>
+    <sidenav  @changePage="changeTitle">
+    </sidenav>
     <slot></slot>
   </div>
 </template>
@@ -32,9 +33,8 @@ export default {
     Sidenav
   },
   methods: {
-    changeTitle(event){
-      alert();
-      title = event.target.value;
+    changeTitle(id){
+      this.title = id;
     }
   }
 }
