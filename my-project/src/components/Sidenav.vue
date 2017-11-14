@@ -5,7 +5,7 @@
           <img src="../assets/pepe.jpg">
         </a>
       </md-toolbar>
-      <sidenav-links @changePage=changePage>
+      <sidenav-links @changePage="changePage">
       </sidenav-links>
     </md-sidenav>
 </template>

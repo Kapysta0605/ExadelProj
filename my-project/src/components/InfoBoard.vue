@@ -9,7 +9,7 @@
       <md-layout md-column md-gutter>
         <md-layout md-flex="50"></md-layout>
         <md-layout></md-layout>
-        <md-layout></md-layout>
+        <md-layout>Info</md-layout>
       </md-layout>
     </md-layout>
   </div>
@@ -21,9 +21,7 @@
 import SidenavLinks from './SidenavLinks'
 export default {
   name: 'InfoBoard',
-  components: { 
-    SidenavLinks
-   }
+  components: {}
 };
 </script>
 

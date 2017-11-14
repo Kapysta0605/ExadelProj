@@ -1,0 +1,46 @@
+{
+  "name": "pick_brains",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "async": "^2.5.0",
+    "body-parser": "^1.17.2",
+    "camelcase-object": "^1.0.0",
+    "connect-mongo": "^2.0.0",
+    "cors": "^2.8.4",
+    "dateformat": "^2.0.0",
+    "eslint-config-airbnb": "^15.0.2",
+    "express": "^4.15.3",
+    "express-mysql-session": "^1.2.1",
+    "express-session": "^1.15.3",
+    "express-validation": "^1.0.2",
+    "google-auth-library": "^0.10.0",
+    "googleapis": "^20.1.0",
+    "joi": "^10.6.0",
+    "json2xls": "^0.1.2",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.forown": "^4.4.0",
+    "lodash.isarray": "^4.0.0",
+    "lodash.isplainobject": "^4.0.6",
+    "lodash.snakecase": "^4.1.1",
+    "metaphone": "^1.0.2",
+    "mongodb": "^2.2.33",
+    "mongoose": "^4.13.2",
+    "mysql": "^2.13.0",
+    "nodemailer": "^4.0.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "redis": "^2.7.1",
+    "translitit-engine": "^0.1.1",
+    "trie-search": "^1.0.1"
+  },
+  "devDependencies": {
+    "eslint": "3.19.0",
+    "eslint-config-airbnb-base": "11.2.0",
+    "eslint-plugin-import": "2.2.0",
+    "loadtest": "*"
+  }
+}

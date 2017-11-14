@@ -1,7 +1,7 @@
 <template>
     <md-button-toggle md-single class='sidenav-links md-list'>
       <h2>FeelsBadMan.coz</h2>
-      <md-button v-for="(item, index) in menu" :key=index :value=index @click=changePage>
+      <md-button v-for="(item, index) in menu" :key=index :value=index @click="changePage">
         {{ item.name }}
       </md-button>
     </md-button-toggle>

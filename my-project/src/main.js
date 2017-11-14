@@ -11,22 +11,13 @@ Vue.use(VueMaterial);
 
 Vue.material.registerTheme({
   default: {
-    primary: 'white',
-    accent: 'red',
-    warn: 'red',
-    background: 'white'
-  },
-  green: {
     primary: {
       color: 'light-green',
       hue: 700
-    }
-  },
-  about: {
-    primary: 'indigo'
-  },
-  contact: {
-    primary: 'teal'
+    },
+    accent: 'red',
+    warn: 'red',
+    background: 'white'
   }
 })
 
