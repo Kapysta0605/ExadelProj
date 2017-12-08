@@ -3,12 +3,13 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 // const async = require('async');
 
-const authentication = require('./server/authentication/passport');
+// const authentication = require('./server/authentication/passport');
+const sneakers = require('./server/routes/sneakers');
 const utils = require('./utils');
 
 const app = express();
 
-authentication.init(app);
+// authentication.init(app);
 
 app.set('port', (process.env.PORT || 1337));
 app.use(bodyParser.json());
@@ -18,23 +19,24 @@ app.use(cors({
   credentials: true,
 }));
 
-app.use('/api/authentication/', authentication.router);
+// app.use('/api/authentication/', authentication.router);
+app.use('/api/sneakers/', sneakers);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/api/', (req, res, next) => {
-  if (!req.user) {
-    return res.status(401).end();
-  }
-  next();
-});
+// app.use('/api/', (req, res, next) => {
+//   if (!req.user) {
+//     return res.status(401).end();
+//   }
+//   next();
+// });
 
-app.get('/api/user', (req, res) => {
-  const user = req.user;
-  delete user.login;
-  res.status(200).send(utils.toCamel(user));
-});
+// app.get('/api/user', (req, res) => {
+//   const user = req.user;
+//   delete user.login;
+//   res.status(200).send(utils.toCamel(user));
+// });
 
 app.get('/', (req, res) => {
   res.send('HELLOY');

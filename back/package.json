@@ -33,7 +33,9 @@
     "nodemailer": "^4.0.1",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
+    "pg": "^7.4.0",
     "redis": "^2.7.1",
+    "sequelize": "^4.27.0",
     "translitit-engine": "^0.1.1",
     "trie-search": "^1.0.1"
   },

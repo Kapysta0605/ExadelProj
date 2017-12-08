@@ -1,26 +1,26 @@
-const Joi = require('joi');
+// const Joi = require('joi');
 
-const login = {
-  options: {
-    allowUnknownBody: false,
-    allowUnknownQuery: false,
-    allowUnknownParams: false,
-  },
-  body: {
-    login: Joi.string().required(),
-    password: Joi.string().required(),
-  },
-};
+// const login = {
+//   options: {
+//     allowUnknownBody: false,
+//     allowUnknownQuery: false,
+//     allowUnknownParams: false,
+//   },
+//   body: {
+//     login: Joi.string().required(),
+//     password: Joi.string().required(),
+//   },
+// };
 
-const exit = {
-  options: {
-    allowUnknownBody: false,
-    allowUnknownQuery: false,
-    allowUnknownParams: false,
-  },
-};
+// const exit = {
+//   options: {
+//     allowUnknownBody: false,
+//     allowUnknownQuery: false,
+//     allowUnknownParams: false,
+//   },
+// };
 
-module.exports = {
-  login,
-  exit,
-};
+// module.exports = {
+//   login,
+//   exit,
+// };
