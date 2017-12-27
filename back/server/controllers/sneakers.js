@@ -9,6 +9,17 @@ function get(req, res) {
     });
 }
 
+function getById(req, res) {
+  service.getById(req.params.id)
+    .then(result => res.status(200).send(result))
+    .catch((error) => {
+      res.sendStatus(500);
+      throw error;
+    });
+}
+
+
 module.exports = {
   get,
+  getById,
 };
