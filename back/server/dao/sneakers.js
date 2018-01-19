@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize('snkr_srch', 'postgres', 'admin', {
   host: 'localhost',
   dialect: 'postgres',
-  port: '1488',
+  port: '8000',
   pool: {
     max: 5,
     min: 0,
@@ -29,11 +29,18 @@ function getById(id) {
     LEFT JOIN sneakers.sneakers on sneaker_id = sneakers.id
     LEFT JOIN sneakers.stores on store_id = stores.id
     LEFT JOIN sneakers.brands on brand_id = brands.id
-    LEFT JOIN sneakers.sizes on sneakers_to_stores.id = sizes.sneakers_to_stores_id    
+    LEFT JOIN sneakers.sizes on sneakers_to_stores.id = sizes.sneakers_to_stores_id  
     WHERE sneakers.id = '${id}'`);
 }
 
+function getSneakersImgs(id){
+  return sequelize.query(`SELECT url
+  FROM sneakers.sneaker_imgs
+  WHERE sneaker_id = '${id}'`);
+}
+
 module.exports = {
+  getSneakersImgs,
   get,
   getById,
 };

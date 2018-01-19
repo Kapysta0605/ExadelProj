@@ -44,7 +44,7 @@ function getById(id) {
             sizes[item.size] = [];
           }
           sizes[item.size].push({
-            shop: item.store,
+            name: item.store,
             price: item.price,
             currency: item.currency,
             url: item.url,
@@ -59,7 +59,12 @@ function getById(id) {
         });
         sneaker.sizes.sort((a, b) => parseFloat(a.value) - parseFloat(b.value));
         delete sneaker.url;
-        return res(sneaker);
+        return dao.getSneakersImgs(id)
+          .then((imgs) => {
+            sneaker.imgs = imgs[0].map(img => img.url);
+            res(sneaker);
+          })
+          .catch(error => rej(error));
       })
       .catch(err => rej(err));
   });
