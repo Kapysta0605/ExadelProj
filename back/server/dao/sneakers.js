@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize('snkr_srch', 'postgres', 'admin', {
   host: 'localhost',
   dialect: 'postgres',
-  port: '8000',
+  port: '1488',
   pool: {
     max: 5,
     min: 0,
@@ -14,6 +14,39 @@ const sequelize = new Sequelize('snkr_srch', 'postgres', 'admin', {
   // http://docs.sequelizejs.com/manual/tutorial/querying.html#operators
   operatorsAliases: false,
 });
+
+function formQuery(filter) {
+  const query = [];
+  let sent = 'WHERE ';
+  let j = 0;
+  if (filter) {
+    Object.keys(filter).forEach((key, i) => {
+      if (i === 1) {
+        sent = ' AND ';
+      }
+      if (key === 'departament') {
+        query[i] = `${sent}sneakers.gender = ${filter[key][0]}`;
+        return;
+      }
+      if (key === 'price') {
+        query[i] = `${sent}${key} >= ${filter[key][0]} AND ${sent}${key} <= ${filter[key][1]}`;
+        return;
+      }
+      query[i + j] = `${sent}${key} IN (`;
+      filter[key].forEach((val, l, arr) => {
+        j += 1;
+        if (l !== arr.length - 1) {
+          query[i + j] = `'${val}',`;
+          return;
+        }
+        query[i + j] = `'${val}'`;
+      });
+      j += 1;
+      query[i + j] = ')';
+    });
+    return query.join('');
+  }
+}
 
 function get(filter) {
   return sequelize.query(`SELECT sneaker_imgs.url as img, brands.name as brand, sneakers.model, sneakers.id, currency, price, sizes.size
@@ -26,7 +59,8 @@ function get(filter) {
       WHERE sneaker_imgs.sneaker_id = sneakers.id
       LIMIT 1
     )
-    RIGHT JOIN sneakers.sizes on sneakers_to_stores.id = sizes.sneakers_to_stores_id`);
+    RIGHT JOIN sneakers.sizes on sneakers_to_stores.id = sizes.sneakers_to_stores_id
+    ${formQuery(filter)}`);
 }
 
 function getById(id) {
