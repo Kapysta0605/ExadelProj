@@ -84,12 +84,12 @@ function getSneakersImgs(id) {
 }
 
 function getAllBrands() {
-  return sequelize.query(`SELECT brands.name as brands
+  return sequelize.query(`SELECT brands.name
   FROM sneakers.brands`);
 }
 
 function getAllSizes() {
-  return sequelize.query(`SELECT sizes.size as sizes
+  return sequelize.query(`SELECT sizes.size
   FROM sneakers.sizes
   GROUP BY size`);
 }

@@ -61,12 +61,14 @@ async function getById(id) {
 
 async function getAllBrands() {
   const result = await dao.getAllBrands();
-  return result[0];
+  return result[0] ? result[0].map(brand => brand.name) : undefined;
 }
 
 async function getAllSizes() {
   const result = await dao.getAllSizes();
-  return result[0];
+  return result[0] 
+        ? result[0].map(size => size.size).sort((a, b) => a - b)
+        : undefined;
 }
 
 module.exports = {
