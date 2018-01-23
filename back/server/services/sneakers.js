@@ -2,7 +2,7 @@ const dao = require('../dao/sneakers');
 
 async function get(query) {
   let result = await dao.get(query);
-  if (!result.length) return;
+  if (!result[0].length) return;
   const list = [];
   result = result[0].sort((a, b) => a.id.localeCompare(b.id));
   let sneaker = result[0];
