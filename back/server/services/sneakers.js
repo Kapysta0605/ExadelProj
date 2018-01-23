@@ -59,21 +59,20 @@ async function getById(id) {
   return sneaker;
 }
 
-async function getAllBrands() {
-  const result = await dao.getAllBrands();
-  return result[0] ? result[0].map(brand => brand.name) : undefined;
-}
-
-async function getAllSizes() {
-  const result = await dao.getAllSizes();
-  return result[0] 
-        ? result[0].map(size => size.size).sort((a, b) => a - b)
-        : undefined;
+async function getFilterMeta() {
+  const result = {};
+  [result.brands, result.sizes] = await Promise.all([dao.getAllBrands(), dao.getAllSizes()]);
+  result.sizes = result.sizes[0].length
+                ? result.sizes[0].map(size => size.size).sort((a, b) => a - b)
+                : undefined;
+  result.brands = result.brands[0].length
+                ? result.brands[0].map(brand => brand.name)
+                : undefined;
+  return result;
 }
 
 module.exports = {
   get,
   getById,
-  getAllBrands,
-  getAllSizes,
+  getFilterMeta,
 };

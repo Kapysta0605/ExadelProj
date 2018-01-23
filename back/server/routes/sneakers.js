@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.get('/sneakers', controller.get);
 router.get('/sneakers/:id', controller.getById);
-router.get('/brands', controller.getAllBrands);
-router.get('/sizes', controller.getAllSizes);
+router.get('/filterMeta', controller.getFilterMeta);
 
 module.exports = router;

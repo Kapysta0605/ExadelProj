@@ -20,19 +20,9 @@ async function getById(req, res) {
   }
 }
 
-async function getAllBrands(req, res) {
+async function getFilterMeta(req, res) {
   try {
-    const result = await service.getAllBrands();
-    res.status(200).send(result);
-  } catch (error) {
-    res.sendStatus(500);
-    throw error;
-  }
-}
-
-async function getAllSizes(req, res) {
-  try {
-    const result = await service.getAllSizes();
+    const result = await service.getFilterMeta();
     res.status(200).send(result);
   } catch (error) {
     res.sendStatus(500);
@@ -44,6 +34,5 @@ async function getAllSizes(req, res) {
 module.exports = {
   get,
   getById,
-  getAllBrands,
-  getAllSizes,
+  getFilterMeta,
 };
