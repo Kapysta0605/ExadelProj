@@ -59,7 +59,19 @@ async function getById(id) {
   return sneaker;
 }
 
+async function getAllBrands() {
+  const result = await dao.getAllBrands();
+  return result[0];
+}
+
+async function getAllSizes() {
+  const result = await dao.getAllSizes();
+  return result[0];
+}
+
 module.exports = {
   get,
   getById,
+  getAllBrands,
+  getAllSizes,
 };

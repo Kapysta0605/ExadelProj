@@ -20,8 +20,30 @@ async function getById(req, res) {
   }
 }
 
+async function getAllBrands(req, res) {
+  try {
+    const result = await service.getAllBrands();
+    res.status(200).send(result);
+  } catch (error) {
+    res.sendStatus(500);
+    throw error;
+  }
+}
+
+async function getAllSizes(req, res) {
+  try {
+    const result = await service.getAllSizes();
+    res.status(200).send(result);
+  } catch (error) {
+    res.sendStatus(500);
+    throw error;
+  }
+}
+
 
 module.exports = {
   get,
   getById,
+  getAllBrands,
+  getAllSizes,
 };

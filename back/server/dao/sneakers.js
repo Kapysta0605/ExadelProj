@@ -11,7 +11,6 @@ const sequelize = new Sequelize('snkr_srch', 'postgres', 'admin', {
     idle: 10000,
   },
 
-  // http://docs.sequelizejs.com/manual/tutorial/querying.html#operators
   operatorsAliases: false,
 });
 
@@ -66,23 +65,39 @@ function get(filter) {
 }
 
 function getById(id) {
-  return sequelize.query(`SELECT brands.name as brand, stores.name as store, sneakers.model, sneakers.id, currency, price, sizes.size, sneakers_to_stores.url
+  return sequelize.query({
+    query: `SELECT brands.name as brand, stores.name as store, sneakers.model, sneakers.id, currency, price, sizes.size, sneakers_to_stores.url
     FROM sneakers.sneakers_to_stores
     LEFT JOIN sneakers.sneakers on sneaker_id = sneakers.id
     LEFT JOIN sneakers.stores on store_id = stores.id
     LEFT JOIN sneakers.brands on brand_id = brands.id
     LEFT JOIN sneakers.sizes on sneakers_to_stores.id = sizes.sneakers_to_stores_id  
-    WHERE sneakers.id = '${id}'`);
+    WHERE sneakers.id = ?`,
+    values: [id],
+  });
 }
 
-function getSneakersImgs(id){
+function getSneakersImgs(id) {
   return sequelize.query(`SELECT url
   FROM sneakers.sneaker_imgs
   WHERE sneaker_id = '${id}'`);
+}
+
+function getAllBrands() {
+  return sequelize.query(`SELECT brands.name as brands
+  FROM sneakers.brands`);
+}
+
+function getAllSizes() {
+  return sequelize.query(`SELECT sizes.size as sizes
+  FROM sneakers.sizes
+  GROUP BY size`);
 }
 
 module.exports = {
   getSneakersImgs,
   get,
   getById,
+  getAllBrands,
+  getAllSizes,
 };
