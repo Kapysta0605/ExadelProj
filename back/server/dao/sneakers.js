@@ -32,7 +32,9 @@ function formQuery(filter) {
         query[i] = `${sent}${key} >= ${filter[key][0]} AND ${sent}${key} <= ${filter[key][1]}`;
         return;
       }
-      query[i + j] = `${sent}${key} IN (`;
+      query[i + j] = key === 'brands'
+                    ? `${sent}brands.name IN (`
+                    : `${sent}${key} IN (`;
       filter[key].forEach((val, l, arr) => {
         j += 1;
         if (l !== arr.length - 1) {
