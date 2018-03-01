@@ -2,11 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const sneakers = require('./server/routes/sneakers');
-const utils = require('./utils');
 
 const app = express();
-
-// authentication.init(app);
 
 app.set('port', (process.env.PORT || 1337));
 app.use(bodyParser.json());

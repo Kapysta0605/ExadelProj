@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const Elasticsearch = require('elasticsearch');
 
 const sequelize = new Sequelize('snkr_srch', 'postgres', 'admin', {
   host: 'localhost',
@@ -14,38 +15,57 @@ const sequelize = new Sequelize('snkr_srch', 'postgres', 'admin', {
   operatorsAliases: false,
 });
 
+// const client = new Elasticsearch.Client({
+//   host: 'localhost:9200',
+//   log: 'trace',
+// });
+
+// client.ping({
+//   requestTimeout: 30000,
+// }, (error) => {
+//   if (error) {
+//     console.error('elasticsearch cluster is down!');
+//   } else {
+//     console.log('All is well');
+//   }
+// });
+
+function formString(key, items) {
+  if (items.length === 1) {
+    return `${key} = ${items[0]}`;
+  }
+  const string = [];
+  string.push(`${key} IN (`);
+  items.forEach((item) => {
+    string.push(item);
+    string.push(',');
+  });
+  string[string.lastIndexOf(',')] = ')';
+  return string.join('');
+}
+
 function formQuery(filter) {
   const query = [];
-  let sent = 'WHERE ';
-  let j = 0;
   if (filter) {
     Object.keys(filter).forEach((key, i) => {
-      if (i === 1) {
-        sent = ' AND ';
+      switch (key) {
+        case 'departament':
+          query.push(`sneakers.gender = ${filter[key][0]}`);
+          break;
+        case 'price':
+          query.push(`${key} >= ${filter[key][0]}`);
+          query.push(`${key} <= ${filter[key][1]}`);
+          break;
+        case 'brand':
+          query.push(formString('brands.name', filter[key]));
+          break;
+        default:
+          query.push(formString(key, filter[key]));
+          break;
       }
-      if (key === 'departament') {
-        query[i] = `${sent}sneakers.gender = ${filter[key][0]}`;
-        return;
-      }
-      if (key === 'price') {
-        query[i] = `${sent}${key} >= ${filter[key][0]} AND ${sent}${key} <= ${filter[key][1]}`;
-        return;
-      }
-      query[i + j] = key === 'brand'
-                    ? `${sent}brands.name IN (`
-                    : `${sent}${key} IN (`;
-      filter[key].forEach((val, l, arr) => {
-        j += 1;
-        if (l !== arr.length - 1) {
-          query[i + j] = `'${val}',`;
-          return;
-        }
-        query[i + j] = `'${val}'`;
-      });
-      j += 1;
-      query[i + j] = ')';
     });
-    return query.join('');
+    query[0] = `WHERE ${query[0]}`;
+    return query.join(' AND ');
   }
 }
 
