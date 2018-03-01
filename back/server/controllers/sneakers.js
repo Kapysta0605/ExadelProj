@@ -2,7 +2,7 @@ const service = require('../services/sneakers');
 
 async function get(req, res) {
   try {
-    const result = await service.get(req.query);
+    const result = await service.get(req.query) || [];
     res.status(200).send(result);
   } catch (error) {
     res.sendStatus(500);

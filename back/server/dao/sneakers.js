@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const Elasticsearch = require('elasticsearch');
+//const Elasticsearch = require('elasticsearch');
 
 const sequelize = new Sequelize('snkr_srch', 'postgres', 'admin', {
   host: 'localhost',
@@ -31,13 +31,10 @@ const sequelize = new Sequelize('snkr_srch', 'postgres', 'admin', {
 // });
 
 function formString(key, items) {
-  if (items.length === 1) {
-    return `${key} = ${items[0]}`;
-  }
   const string = [];
   string.push(`${key} IN (`);
   items.forEach((item) => {
-    string.push(item);
+    string.push(`'${item}'`);
     string.push(',');
   });
   string[string.lastIndexOf(',')] = ')';
@@ -46,40 +43,40 @@ function formString(key, items) {
 
 function formQuery(filter) {
   const query = [];
-  if (filter) {
-    Object.keys(filter).forEach((key, i) => {
-      switch (key) {
-        case 'departament':
-          query.push(`sneakers.gender = ${filter[key][0]}`);
-          break;
-        case 'price':
-          query.push(`${key} >= ${filter[key][0]}`);
-          query.push(`${key} <= ${filter[key][1]}`);
-          break;
-        case 'brand':
-          query.push(formString('brands.name', filter[key]));
-          break;
-        default:
-          query.push(formString(key, filter[key]));
-          break;
-      }
-    });
-    query[0] = `WHERE ${query[0]}`;
-    return query.join(' AND ');
-  }
+  
+  Object.keys(filter).forEach((key, i) => {
+    switch (key) {
+      case 'departament':
+        query.push(`sneakers.gender = "${filter[key][0]}"`);
+        break;
+      case 'to':
+        query.push(`price <= ${filter[key]}`);
+        break;
+      case 'from':
+        query.push(`price >= ${filter[key]}`);
+      break;
+      case 'brand':
+        query.push(formString('brands.name', filter[key]));
+        break;
+      default:
+        query.push(formString(key, filter[key]));
+        break;
+    }
+  });
+  query[0] = query[0] ? `WHERE ${query[0]}` : '';
+  return query.join(' AND ');
 }
 
 function get(filter) {
-  return sequelize.query(`SELECT sneaker_imgs.url as img, brands.name as brand, sneakers.model, sneakers.id, currency, price, sizes.size
+  return sequelize.query(`SELECT Images.url as img, brands.name as brand, sneakers.model, sneakers.id, currency, price, sizes.size
     FROM sneakers.sneakers_to_stores
     LEFT JOIN sneakers.sneakers on sneaker_id = sneakers.id
-    LEFT JOIN sneakers.brands on brand_id = brands.id
-    LEFT JOIN sneakers.sneaker_imgs on sneaker_imgs.sneaker_id = (
-      SELECT sneaker_imgs.sneaker_id 
+    LEFT JOIN (
+      SELECT DISTINCT ON (sneaker_id) url, sneaker_id
       FROM sneakers.sneaker_imgs
-      WHERE sneaker_imgs.sneaker_id = sneakers.id
-      LIMIT 1
-    )
+      ORDER BY sneaker_id DESC
+    ) as Images on Images.sneaker_id = sneakers.id
+    LEFT JOIN sneakers.brands on brand_id = brands.id    
     RIGHT JOIN sneakers.sizes on sneakers_to_stores.id = sizes.sneakers_to_stores_id
     ${formQuery(filter)}`);
 }
